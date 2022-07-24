@@ -1,7 +1,7 @@
 package ru.practicum.shareit.item;
 
 import org.springframework.stereotype.Repository;
-import ru.practicum.shareit.item.ItemRepository;
+
 import ru.practicum.shareit.item.dto.ItemDto;
 
 import java.util.HashMap;

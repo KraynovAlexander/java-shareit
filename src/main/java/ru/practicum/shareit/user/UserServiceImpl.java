@@ -28,7 +28,7 @@ public class UserServiceImpl implements UserService {
 
         user.setId(++id);
         userRepository.save(user);
-        log.info("User with id={} added successfully", user.getId());
+        log.info("Пользователь с id={} добавлен успешно", user.getId());
 
         return user;
     }
@@ -44,7 +44,7 @@ public class UserServiceImpl implements UserService {
         if (user.getName() != null) beingUpdated.setName(user.getName());
 
         userRepository.update(beingUpdated);
-        log.info("User with id={} updated successfully", user.getId());
+        log.info("Пользователь с id={} успешн обновлено", user.getId());
 
         return beingUpdated;
     }
@@ -62,11 +62,11 @@ public class UserServiceImpl implements UserService {
     @Override
     public void delete(long id) {
         userRepository.delete(id);
-        log.info("User with id={} deleted successfully", id);
+        log.info("Пользователь с id={} удален успешно", id);
     }
 
     private void checkForDuplication(String email) {
         if (userRepository.doesEmailExist(email))
-            throw new UserException(String.format("User with email=%s already exists", email));
+            throw new UserException(String.format("Пользователь с электронной почтой=%s уже существует", email));
     }
 }
