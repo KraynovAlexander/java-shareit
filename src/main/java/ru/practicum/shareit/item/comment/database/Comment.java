@@ -1,4 +1,5 @@
 package ru.practicum.shareit.item.comment.database;
+
 import lombok.*;
 import org.hibernate.Hibernate;
 import org.hibernate.annotations.CreationTimestamp;

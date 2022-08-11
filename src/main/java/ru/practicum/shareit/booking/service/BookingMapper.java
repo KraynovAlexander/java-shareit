@@ -1,4 +1,5 @@
 package ru.practicum.shareit.booking.service;
+
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import ru.practicum.shareit.booking.database.Booking;

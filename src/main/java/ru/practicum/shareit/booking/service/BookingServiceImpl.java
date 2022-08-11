@@ -1,4 +1,5 @@
 package ru.practicum.shareit.booking.service;
+
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.practicum.shareit.booking.database.Booking;
@@ -24,6 +25,7 @@ public class BookingServiceImpl implements BookingService {
     public final BookingRepository bookingRepository;
 
     public final ItemRepository itemRepository;
+
     private List<Booking> getBookingsByState(State state, List<Booking> bookings) {
         switch (state) {
             case ALL:
@@ -63,6 +65,7 @@ public class BookingServiceImpl implements BookingService {
         }
         throw new ValidationException("Товар недоступен");
     }
+
     @Override
     public Booking approve(Long userId, Long bookingId, Boolean approved) {
         Booking booking = bookingRepository.findById(bookingId)
@@ -76,6 +79,7 @@ public class BookingServiceImpl implements BookingService {
         booking.setStatus(approved ? BookingStatus.APPROVED : BookingStatus.REJECTED);
         return bookingRepository.save(booking);
     }
+
     @Override
     public Booking getById(Long userId, Long id) {
         Booking booking = bookingRepository.findById(id)
@@ -86,7 +90,6 @@ public class BookingServiceImpl implements BookingService {
         }
         throw new NotFoundException("Неправильный user");
     }
-
 
 
     @Override
@@ -111,6 +114,4 @@ public class BookingServiceImpl implements BookingService {
         }
         return getBookingsByState(state, bookings);
     }
-
-
 }

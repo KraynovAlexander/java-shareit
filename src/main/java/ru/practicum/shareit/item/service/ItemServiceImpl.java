@@ -101,6 +101,7 @@ public class ItemServiceImpl implements ItemService {
         itemMapper.updateItemFromDto(itemDto, item);
         return itemRepository.save(item);
     }
+
     private Item addLastAndNextBookings(Item item) {
         item.setLastBooking(item.getBookings().stream()
                 .sorted(Comparator.comparing(Booking::getEndTime).reversed())
