@@ -15,7 +15,7 @@ import java.util.List;
 import static org.assertj.core.api.AssertionsForInterfaceTypes.assertThat;
 
 @JsonTest
-class TestRequestDtoWithItems {
+class RequestDtoWithItemsTest {
     @Autowired
     JacksonTester<RequestDtoWithItems> json;
 
@@ -24,14 +24,14 @@ class TestRequestDtoWithItems {
         LocalDateTime created = LocalDateTime.now();
         ItemDto firstItem = ItemDto.builder()
                 .id(6L)
-                .id(7L)
+                .requestId(7L)
                 .description("the book Thinking on java")
                 .available(true)
                 .ownerId(5L)
                 .build();
         ItemDto secondItem = ItemDto.builder()
                 .id(5L)
-                .id(7L)
+                .requestId(7L)
                 .description("some interesting book")
                 .available(false)
                 .ownerId(4L)
