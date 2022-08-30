@@ -27,18 +27,18 @@ public class RequestController {
     }
 
     @PostMapping
-    public RequestDto create(@RequestHeader(value = "X-Sharer-User-Id") long userId,
+    public RequestDto create(@RequestHeader(value = Constants.SHARER) long userId,
                              @Valid @RequestBody RequestInDto requestInDto) {
         return requestService.addNewRequest(userId, requestInDto);
     }
 
     @GetMapping
-    public List<RequestDtoWithItems> getAllByUserId(@RequestHeader("X-Sharer-User-Id") long userId) {
+    public List<RequestDtoWithItems> getAllByUserId(@RequestHeader(Constants.SHARER) long userId) {
         return requestService.findRequestsByUserId(userId);
     }
 
     @GetMapping("/all")
-    public List<RequestDtoWithItems> getAll(@RequestHeader("X-Sharer-User-Id") long userId,
+    public List<RequestDtoWithItems> getAll(@RequestHeader(Constants.SHARER) long userId,
                                             @RequestParam(value = "from", required = false, defaultValue = "0")
                                             @PositiveOrZero int from,
                                             @RequestParam(value = "size", required = false, defaultValue = "10")
@@ -47,7 +47,7 @@ public class RequestController {
     }
 
     @GetMapping("/{requestId}")
-    public RequestDtoWithItems getByRequestId(@RequestHeader("X-Sharer-User-Id") long userId,
+    public RequestDtoWithItems getByRequestId(@RequestHeader(Constants.SHARER) long userId,
                                               @PathVariable long requestId) {
         return requestService.getById(userId, requestId);
     }

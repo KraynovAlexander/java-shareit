@@ -28,6 +28,7 @@ import ru.practicum.shareit.errorHandler.exception.ItemException;
 import ru.practicum.shareit.errorHandler.exception.UserNotFoundException;
 import ru.practicum.shareit.item.model.Item;
 import ru.practicum.shareit.user.model.User;
+import ru.practicum.shareit.utils.Constants;
 
 
 import java.nio.charset.StandardCharsets;
@@ -76,7 +77,7 @@ class TestBookingController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 2L)
+                        .header(Constants.SHARER, 2L)
                         .content(mapper.writeValueAsString(bookingInDto)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value("1"))
@@ -100,7 +101,7 @@ class TestBookingController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 1L)
+                        .header(Constants.SHARER, 1L)
                         .content(mapper.writeValueAsString(bookingInDto)))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ItemException))
                 .andExpect(result -> assertEquals("пользователь пытается забронировать свой собственный товар",
@@ -118,7 +119,7 @@ class TestBookingController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 1L)
+                        .header(Constants.SHARER, 1L)
                         .content(mapper.writeValueAsString(bookingInDto)))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ItemException))
                 .andExpect(result -> assertEquals("Предмет с id=1 не найден",
@@ -157,7 +158,7 @@ class TestBookingController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 5L)
+                        .header(Constants.SHARER, 5L)
                         .content(mapper.writeValueAsString(bookingInDto)))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
                 .andExpect(result -> assertEquals("Пользователь с  id=5 не найден",
@@ -175,7 +176,7 @@ class TestBookingController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header("X-Sharer-User-Id", 2L)
+                        .header(Constants.SHARER, 2L)
                         .content(mapper.writeValueAsString(bookingInDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertEquals("попытка бронирования не удалась из-за неверных данных",
@@ -189,7 +190,7 @@ class TestBookingController {
                 .thenReturn(approved);
 
         mockMvc.perform(patch("/bookings/1?approved=true")
-                        .header("X-Sharer-User-Id", 1L))
+                        .header(Constants.SHARER, 1L))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value("1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("status").value("APPROVED"));
@@ -202,7 +203,7 @@ class TestBookingController {
                 .thenThrow(new BookingException("Бронирование с помощью id=1 не найдено"));
 
         mockMvc.perform(patch("/bookings/1?approved=true")
-                        .header("X-Sharer-User-Id", 3L))
+                        .header(Constants.SHARER, 3L))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof BookingException))
                 .andExpect(result -> assertEquals("Бронирование с помощью id=1 не найдено",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
@@ -216,7 +217,7 @@ class TestBookingController {
                 .thenThrow(new BookingException("бронирование с помощью id=1 для пользователя с id=3 не может быть"));
 
         mockMvc.perform(patch("/bookings/1?approved=true")
-                        .header("X-Sharer-User-Id", 3L))
+                        .header(Constants.SHARER, 3L))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof BookingException))
                 .andExpect(result -> assertEquals("бронирование с помощью id=1 для пользователя с id=3 не может быть",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
@@ -230,7 +231,7 @@ class TestBookingController {
                 .thenThrow(new RequestException("статус не может быть изменен"));
 
         mockMvc.perform(patch("/bookings/1?approved=false")
-                        .header("X-Sharer-User-Id", 1L))
+                        .header(Constants.SHARER, 1L))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof RequestException))
                 .andExpect(result -> assertEquals("статус не может быть изменен",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
@@ -244,7 +245,7 @@ class TestBookingController {
                 .thenReturn(bookingOutDto);
 
         mockMvc.perform(get("/bookings/1")
-                        .header("X-Sharer-User-Id", 2L))
+                        .header(Constants.SHARER, 2L))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value("1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("item.id").value("1"))
@@ -264,7 +265,7 @@ class TestBookingController {
                 .thenThrow(new BookingException("Бронирование с помощью id=2 не может быть"));
 
         mockMvc.perform(get("/bookings/2")
-                        .header("X-Sharer-User-Id", 1L))
+                        .header(Constants.SHARER, 1L))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof BookingException))
                 .andExpect(result -> assertEquals("Бронирование с помощью id=2 не может быть",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
@@ -278,7 +279,7 @@ class TestBookingController {
                 .thenThrow(new BookingException("бронирование с помощью id=1 для пользователя с id=3 не может быть"));
 
         mockMvc.perform(get("/bookings/1")
-                        .header("X-Sharer-User-Id", 3L))
+                        .header(Constants.SHARER, 3L))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof BookingException))
                 .andExpect(result -> assertEquals("бронирование с помощью id=1 для пользователя с id=3 не может быть",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
@@ -308,7 +309,7 @@ class TestBookingController {
                 .thenReturn(bookings);
 
         mockMvc.perform(get("/bookings?state=ALL")
-                        .header("X-Sharer-User-Id", 2L))
+                        .header(Constants.SHARER, 2L))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(2))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value("2"))
@@ -328,7 +329,7 @@ class TestBookingController {
                 .thenThrow(new RequestException("Unknown state: UNSUPPORTED_STATUS"));
 
         mockMvc.perform(get("/bookings?state=EVERY")
-                        .header("X-Sharer-User-Id", 2L))
+                        .header(Constants.SHARER, 2L))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof RequestException))
                 .andExpect(result -> assertEquals("Unknown state: UNSUPPORTED_STATUS",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
@@ -342,7 +343,7 @@ class TestBookingController {
                 .thenThrow(new UserNotFoundException("Пользователь с id=5 не найден"));
 
         mockMvc.perform(get("/bookings?state=ALL")
-                        .header("X-Sharer-User-Id", 5L))
+                        .header(Constants.SHARER, 5L))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
                 .andExpect(result -> assertEquals("Пользователь с id=5 не найден",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
@@ -376,7 +377,7 @@ class TestBookingController {
                 .thenReturn(bookings);
 
         mockMvc.perform(get("/bookings/owner?state=ALL")
-                        .header("X-Sharer-User-Id", 1L))
+                        .header(Constants.SHARER, 1L))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(3))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value("3"))
@@ -400,7 +401,7 @@ class TestBookingController {
                 .thenThrow(new UserNotFoundException("Пользователь с id=3 не является владельцем чего-либо"));
 
         mockMvc.perform(get("/bookings/owner?state=ALL")
-                        .header("X-Sharer-User-Id", 3L))
+                        .header(Constants.SHARER, 3L))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
                 .andExpect(result -> assertEquals("Пользователь с id=3 не является владельцем чего-либо",
