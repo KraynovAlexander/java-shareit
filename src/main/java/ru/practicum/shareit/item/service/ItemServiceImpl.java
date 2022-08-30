@@ -68,6 +68,7 @@ public class ItemServiceImpl implements ItemService {
 
         return ItemMapper.toItemDto(item);
     }
+
     @Override
     public List<ItemDto> search(String text, int from, int size) {  // поиск вещей по содержанию введенного текста в имени или описании
         if (text.isEmpty() || text.isBlank()) return new ArrayList<>();
@@ -101,6 +102,7 @@ public class ItemServiceImpl implements ItemService {
 
         return nextBookingOptional.isEmpty() ? null : BookingMapper.toBookingShortDto(nextBookingOptional.get());
     }
+
     @Override
     public CommentDto postComment(CommentDto commentDto, long userId, long itemId) {
         checkComment(commentDto);
