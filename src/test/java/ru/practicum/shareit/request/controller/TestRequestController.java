@@ -41,6 +41,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
 @WebMvcTest(RequestController.class)
 @AutoConfigureMockMvc
 class TestRequestController {
@@ -128,6 +129,7 @@ class TestRequestController {
                 .andExpect(status().isBadRequest());
     }
 
+
     @Test
     void getAllByUserIdStatusIsOk() throws Exception {
         RequestDtoWithItems first = RequestDtoWithItems.builder()
@@ -136,7 +138,7 @@ class TestRequestController {
                 .items(List.of(ItemDto.builder()
                         .id(1L)
                         .ownerId(2L)
-                        .id(2L)
+                        .requestId(2L)
                         .available(true)
                         .name("two")
                         .description("very useful")
