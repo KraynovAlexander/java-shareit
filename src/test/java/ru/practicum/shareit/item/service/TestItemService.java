@@ -148,13 +148,13 @@ class TestItemService {
         Mockito.when(userRepository.findById(1L))
                 .thenReturn(Optional.of(user));
         Mockito.when(requestRepository.findById(2L))
-                .thenThrow(new RequestNotFoundException("Request with id=2 не найден"));
+                .thenThrow(new RequestNotFoundException("Запрос с id=2 не найден"));
 
         final RequestNotFoundException exception = Assertions.assertThrows(
                 RequestNotFoundException.class,
                 () -> itemService.addNewItem(1L, itemDto));
 
-        Assertions.assertEquals("Request with id=2 не найден", exception.getMessage());
+        Assertions.assertEquals("Запрос с id=2 не найден", exception.getMessage());
 
         Mockito.verify(userRepository, Mockito.times(1))
                 .findById(1L);
@@ -172,7 +172,7 @@ class TestItemService {
                 RequestException.class,
                 () -> itemService.postComment(blankComment, 1L, 1L));
 
-        Assertions.assertEquals("comment cannot be empty", exception.getMessage());
+        Assertions.assertEquals("комментарий не может быть пустым", exception.getMessage());
 
         Mockito.verify(userRepository, Mockito.never())
                 .findById(Mockito.anyLong());
@@ -241,7 +241,7 @@ class TestItemService {
                 RequestException.class,
                 () -> itemService.postComment(comment, 1L, 1L));
 
-        Assertions.assertEquals("Пользователь с id=1 невозможно оставить комментарий к товару с id=1",
+        Assertions.assertEquals("Пользователь с id=1 не может оставить комментарий к товару с id=1",
                 exception.getMessage());
 
         Mockito.verify(userRepository, Mockito.times(1))
@@ -269,7 +269,7 @@ class TestItemService {
                 RequestException.class,
                 () -> itemService.postComment(comment, 1L, 1L));
 
-        Assertions.assertEquals("Пользователь с id=1 невозможно оставить комментарий к товару с id=1",
+        Assertions.assertEquals("Пользователь с id=1 не может оставить комментарий к товару с id=1",
                 exception.getMessage());
 
         Mockito.verify(userRepository, Mockito.times(1))
@@ -364,7 +364,7 @@ class TestItemService {
                 NoAccessRightsException.class,
                 () -> itemService.updateItem(1L, 1L, itemDto));
 
-        Assertions.assertEquals("Пользователь с id=1 has no rights to update Предмет с id=1", exception.getMessage());
+        Assertions.assertEquals("Пользователь с id=1 не имеет прав на обновление элемента с id=1", exception.getMessage());
 
         Mockito.verify(userRepository, Mockito.times(1))
                 .existsById(Mockito.anyLong());

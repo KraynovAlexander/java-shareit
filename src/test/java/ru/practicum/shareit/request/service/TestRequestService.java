@@ -237,13 +237,13 @@ class TestRequestService {
         Mockito.when(userRepository.existsById(1L))
                 .thenReturn(true);
         Mockito.when(requestRepository.findById(5L))
-                .thenThrow(new RequestNotFoundException("Request with id=5 не найден"));
+                .thenThrow(new RequestNotFoundException("Запрос с id=5 не найден"));
 
         final RequestNotFoundException exception = Assertions.assertThrows(
                 RequestNotFoundException.class,
                 () -> requestService.getById(1L, 5L));
 
-        Assertions.assertEquals("Request with id=5 не найден", exception.getMessage());
+        Assertions.assertEquals("Запрос с id=5 не найден", exception.getMessage());
 
         Mockito.verify(userRepository, Mockito.times(1))
                 .existsById(1L);

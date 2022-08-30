@@ -253,14 +253,14 @@ class TestRequestController {
     void getByNotExistsRequestIdStatusIsNotFound() throws Exception {
         Mockito
                 .when(requestService.getById(1L, 5L))
-                .thenThrow(new RequestNotFoundException("Request with id=5 не найден"));
+                .thenThrow(new RequestNotFoundException("Запрос с id=5 не найден"));
 
         mockMvc.perform(get("/requests/5")
                         .contentType(MediaType.APPLICATION_JSON)
                         .header(Constants.SHARER, 1L))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof RequestNotFoundException))
-                .andExpect(result -> assertEquals("Request with id=5 не найден",
+                .andExpect(result -> assertEquals("Запрос с id=5 не найден",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()));
     }
 }
