@@ -4,7 +4,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import ru.practicum.shareit.utils.Constants;
 import ru.practicum.shareit.item.model.dto.CommentDto;
 import ru.practicum.shareit.item.model.dto.ItemDto;
 import ru.practicum.shareit.item.model.dto.ItemDtoFull;
@@ -29,29 +28,29 @@ public class ItemController {
     }
 
     @PostMapping
-    public ItemDto create(@RequestHeader(value = Constants.SHARER) long userId, @Valid @RequestBody ItemDto item) {
+    public ItemDto create(@RequestHeader(value = "X-Sharer-User-Id") long userId, @Valid @RequestBody ItemDto item) {
         return itemService.addNewItem(userId, item);
     }
 
     @PostMapping("/{itemId}/comment")
-    public CommentDto postComment(@RequestHeader(Constants.SHARER) long userId, @Valid @RequestBody CommentDto commentDto,
+    public CommentDto postComment(@RequestHeader("X-Sharer-User-Id") long userId, @Valid @RequestBody CommentDto commentDto,
                                   @PathVariable long itemId) {
         return itemService.postComment(commentDto, userId, itemId);
     }
 
     @PatchMapping("/{itemId}")
-    public ItemDto update(@RequestHeader(Constants.SHARER) long userId, @RequestBody ItemDto item,
+    public ItemDto update(@RequestHeader("X-Sharer-User-Id") long userId, @RequestBody ItemDto item,
                           @PathVariable long itemId) {
         return itemService.updateItem(userId, itemId, item);
     }
 
     @GetMapping("/{itemId}")
-    public ItemDtoFull getByItemId(@RequestHeader(Constants.SHARER) long userId, @PathVariable long itemId) {
+    public ItemDtoFull getByItemId(@RequestHeader("X-Sharer-User-Id") long userId, @PathVariable long itemId) {
         return itemService.findItemById(userId, itemId);
     }
 
     @GetMapping
-    public List<ItemDtoWithBookings> getByUserId(@RequestHeader(Constants.SHARER) long userId,
+    public List<ItemDtoWithBookings> getByUserId(@RequestHeader("X-Sharer-User-Id") long userId,
                                                  @RequestParam(value = "from", required = false, defaultValue = "0")
                                                  @PositiveOrZero int from,
                                                  @RequestParam(value = "size", required = false, defaultValue = "10")

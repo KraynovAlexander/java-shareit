@@ -29,7 +29,6 @@ import ru.practicum.shareit.request.model.dto.RequestDtoWithItems;
 import ru.practicum.shareit.request.model.dto.RequestInDto;
 import ru.practicum.shareit.request.service.RequestService;
 import ru.practicum.shareit.user.model.dto.UserDto;
-import ru.practicum.shareit.utils.Constants;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -91,7 +90,7 @@ class TestRequestController {
 
         mockMvc.perform(post("/requests")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(requestInDto)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value("1"))
@@ -108,7 +107,7 @@ class TestRequestController {
 
         mockMvc.perform(post("/requests")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(requestInDto)))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
@@ -124,7 +123,7 @@ class TestRequestController {
 
         mockMvc.perform(post("/requests")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(blankDescription)))
                 .andExpect(status().isBadRequest());
     }
@@ -156,7 +155,7 @@ class TestRequestController {
 
         mockMvc.perform(get("/requests")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(requestInDto)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(2))
@@ -179,7 +178,7 @@ class TestRequestController {
 
         mockMvc.perform(get("/requests")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 3L)
+                        .header("X-Sharer-User-Id", 3L)
                         .content(mapper.writeValueAsString(requestInDto)))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
@@ -205,7 +204,7 @@ class TestRequestController {
 
         mockMvc.perform(get("/requests/all?from=0&size=5")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 2L)
+                        .header("X-Sharer-User-Id", 2L)
                         .content(mapper.writeValueAsString(requestInDto)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$.length()").value(2))
@@ -228,7 +227,7 @@ class TestRequestController {
 
         mockMvc.perform(get("/requests/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(requestInDto)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value("1"))
@@ -243,7 +242,7 @@ class TestRequestController {
 
         mockMvc.perform(get("/requests/1")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(requestInDto)))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
@@ -259,7 +258,7 @@ class TestRequestController {
 
         mockMvc.perform(get("/requests/5")
                         .contentType(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L))
+                        .header("X-Sharer-User-Id", 1L))
                 .andExpect(status().isNotFound())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof RequestNotFoundException))
                 .andExpect(result -> assertEquals("Запрос с id=5 не найден",

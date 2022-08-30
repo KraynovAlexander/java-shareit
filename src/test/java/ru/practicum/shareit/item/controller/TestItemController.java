@@ -26,7 +26,6 @@ import ru.practicum.shareit.item.model.dto.ItemDto;
 import ru.practicum.shareit.item.model.dto.ItemDtoFull;
 import ru.practicum.shareit.item.model.dto.ItemDtoWithBookings;
 import ru.practicum.shareit.item.service.ItemService;
-import ru.practicum.shareit.utils.Constants;
 
 import java.nio.charset.StandardCharsets;
 import java.time.LocalDateTime;
@@ -92,7 +91,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(itemDto)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value("1"))
@@ -111,7 +110,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 2L)
+                        .header("X-Sharer-User-Id", 2L)
                         .content(mapper.writeValueAsString(itemDto)))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
                 .andExpect(result -> assertEquals("Пользователь с id=2 не найден",
@@ -131,7 +130,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(notValidName)))
                 .andExpect(status().isBadRequest());
     }
@@ -148,7 +147,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(emptyDescription)))
                 .andExpect(status().isBadRequest());
     }
@@ -164,7 +163,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(availableNull)))
                 .andExpect(status().isBadRequest());
     }
@@ -179,7 +178,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 2L)
+                        .header("X-Sharer-User-Id", 2L)
                         .content(mapper.writeValueAsString(commentDto)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value("1"))
@@ -197,7 +196,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 2L)
+                        .header("X-Sharer-User-Id", 2L)
                         .content(mapper.writeValueAsString(commentDto)))
                 .andExpect(status().isBadRequest())
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof RequestException))
@@ -216,7 +215,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 2L)
+                        .header("X-Sharer-User-Id", 2L)
                         .content(mapper.writeValueAsString(commentDto)))
                 .andExpect(status().isBadRequest());
     }
@@ -236,7 +235,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(updated)))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value("1"))
@@ -253,7 +252,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 2L)
+                        .header("X-Sharer-User-Id", 2L)
                         .content(mapper.writeValueAsString(updated)))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof UserNotFoundException))
                 .andExpect(result -> assertEquals("Пользователь с id=2 не найден",
@@ -271,7 +270,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L)
+                        .header("X-Sharer-User-Id", 1L)
                         .content(mapper.writeValueAsString(updated)))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ItemException))
                 .andExpect(result -> assertEquals("Предмет с id=2 не найден",
@@ -296,7 +295,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L))
+                        .header("X-Sharer-User-Id", 1L))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("id").value("1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("name").value("book"))
@@ -315,7 +314,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 2L))
+                        .header("X-Sharer-User-Id", 2L))
                 .andExpect(result -> assertTrue(result.getResolvedException() instanceof ItemException))
                 .andExpect(result -> assertEquals("Предмет с id=2 не найден",
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
@@ -344,7 +343,7 @@ class TestItemController {
                         .characterEncoding(StandardCharsets.UTF_8)
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON)
-                        .header(Constants.SHARER, 1L))
+                        .header("X-Sharer-User-Id", 1L))
                 .andExpect(status().isOk())
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].id").value("1"))
                 .andExpect(MockMvcResultMatchers.jsonPath("$[0].name").value("book"))
