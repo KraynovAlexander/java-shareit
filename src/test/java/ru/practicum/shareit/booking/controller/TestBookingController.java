@@ -57,7 +57,6 @@ class TestBookingController {
     private static BookingOutDto approved;
 
 
-
     @BeforeEach
     void setUp() {
         mockMvc = MockMvcBuilders
@@ -126,6 +125,7 @@ class TestBookingController {
                         Objects.requireNonNull(result.getResolvedException()).getMessage()))
                 .andExpect(status().isNotFound());
     }
+
     @BeforeAll
     public static void beforeAll() {
         bookingOutDto = BookingOutDto.builder()
@@ -148,6 +148,7 @@ class TestBookingController {
                 .end(LocalDateTime.now().plusSeconds(3))
                 .build();
     }
+
     @Test
     void addBookingByNotExistsUserStatusIsNotFound() throws Exception {
         Mockito
