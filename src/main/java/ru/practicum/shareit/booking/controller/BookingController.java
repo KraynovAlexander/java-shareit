@@ -30,6 +30,7 @@ public class BookingController {
     public BookingOutDto addNewBooking(@RequestHeader(value = "X-Sharer-User-Id") long userId,
                                        @Valid @RequestBody BookingInDto bookingInDto) {
         return bookingService.addNewBooking(userId, bookingInDto);
+
     }
 
     @PatchMapping("/{bookingId}")

@@ -1,6 +1,5 @@
 package ru.practicum.shareit.request.service;
 
-import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -17,7 +16,6 @@ import ru.practicum.shareit.request.model.dto.RequestDto;
 import ru.practicum.shareit.request.model.dto.RequestDtoWithItems;
 import ru.practicum.shareit.request.model.dto.RequestInDto;
 import ru.practicum.shareit.request.repo.RequestRepository;
-import ru.practicum.shareit.request.service.RequestService;
 import ru.practicum.shareit.user.model.User;
 import ru.practicum.shareit.user.repo.UserRepository;
 import ru.practicum.shareit.utils.Pagination;
@@ -27,7 +25,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@Slf4j
 public class RequestServiceImpl implements RequestService {
     private final RequestRepository requestRepository;
     private final UserRepository userRepository;

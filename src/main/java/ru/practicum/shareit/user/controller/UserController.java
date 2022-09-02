@@ -1,5 +1,6 @@
 package ru.practicum.shareit.user.controller;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -9,6 +10,7 @@ import ru.practicum.shareit.user.service.UserService;
 import javax.validation.Valid;
 
 import java.util.List;
+
 
 @RestController
 @RequestMapping(path = "/users")
@@ -23,6 +25,7 @@ public class UserController {
     @PostMapping
     public UserDto create(@Valid @RequestBody UserDto user) {
         return userService.save(user);
+
     }
 
     @PatchMapping(value = "/{id}")
