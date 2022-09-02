@@ -30,13 +30,13 @@ public class RequestController {
     @PostMapping
     public RequestDto create(@RequestHeader(value = "X-Sharer-User-Id") long userId,
                              @Valid @RequestBody RequestInDto requestInDto) {
-        log.info(" RequestDto create для пользователя с " + userId + " успешно выполнен! ");
+        log.info(" RequestDto create для пользователя с id={} успешно выполнен! ", userId);
         return requestService.addNewRequest(userId, requestInDto);
     }
 
     @GetMapping
     public List<RequestDtoWithItems> getAllByUserId(@RequestHeader("X-Sharer-User-Id") long userId) {
-        log.info("Список getAllByUserId для пользователь с " + userId + " успешно создан! ");
+        log.info("Список getAllByUserId для пользователь с id={} успешно создан! ",userId);
         return requestService.findRequestsByUserId(userId);
     }
 
@@ -46,14 +46,14 @@ public class RequestController {
                                             @PositiveOrZero int from,
                                             @RequestParam(value = "size", required = false, defaultValue = "10")
                                             @Positive @Min(1) int size) {
-        log.info("Список getAll  для пользователь с " + userId + " успешно создан! ");
+        log.info("Список getAll  для пользователь с id={} успешно создан! ",userId);
         return requestService.findAllAnotherUsersRequests(userId, from, size);
     }
 
     @GetMapping("/{requestId}")
     public RequestDtoWithItems getByRequestId(@RequestHeader("X-Sharer-User-Id") long userId,
                                               @PathVariable long requestId) {
-        log.info("RequestDtoWithItems getByRequestId для пользователя с " + userId + " успешно выполнен! ");
+        log.info("RequestDtoWithItems getByRequestId для пользователя с id={} успешно выполнен! ", userId);
         return requestService.getById(userId, requestId);
     }
 }
