@@ -1,7 +1,7 @@
 {
 	"info": {
-		"_postman_id": "42a57a17-8efb-4b8a-ad3c-b9241bf36526",
-		"name": "ShareIt Sprint 3 (add-item-requests)",
+		"_postman_id": "02b3b696-d51d-4750-b4dc-35e6712fd023",
+		"name": "ShareIt Sprint 4 (add-docker)",
 		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
 		"_exporter_id": "2036415"
 	},
@@ -2507,7 +2507,7 @@
 					"response": []
 				},
 				{
-					"name": "Booking create failed by не найден itemId",
+					"name": "Booking create failed by not found itemId",
 					"event": [
 						{
 							"listen": "test",
@@ -5715,7 +5715,7 @@
 			"name": "item requests",
 			"item": [
 				{
-					"name": "Add item Запрос с wrong user",
+					"name": "Add item request with wrong user",
 					"event": [
 						{
 							"listen": "test",
@@ -5774,7 +5774,7 @@
 					"response": []
 				},
 				{
-					"name": "Add item Запрос с empty description",
+					"name": "Add item request with empty description",
 					"event": [
 						{
 							"listen": "test",
