@@ -22,6 +22,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import ru.practicum.shareit.exception.ErrorHandler;
+import ru.practicum.shareit.request.dto.RequestDto;
 
 
 import javax.validation.ConstraintViolationException;
