@@ -9,7 +9,7 @@ import java.util.stream.Stream;
 
 public class ValueOfEnumOrNullValidator implements ConstraintValidator<ValueOfEnum, CharSequence> {
     private List<String> acceptedValues;
-    boolean isNullEnabled;
+   private boolean isNullEnabled;
 
     @Override
     public void initialize(ValueOfEnum annotation) {
